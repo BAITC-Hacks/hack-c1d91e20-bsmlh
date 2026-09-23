@@ -192,15 +192,15 @@ def _assess(field: str, card: Mapping[str, Any]) -> tuple[int, str]:
 
 
 def get_level(score: int) -> str:
-    """Map the 0–100 score to the case's four readiness levels."""
+    """Return the stable UI/API level code for a 0–100 score."""
     value = max(0, min(100, int(score)))
     if value < 40:
-        return "черновик"
+        return "draft"
     if value < 70:
-        return "рабочая"
+        return "working"
     if value < 90:
-        return "готовая"
-    return "приоритетная"
+        return "ready"
+    return "priority"
 
 
 def calculate_rating(
@@ -224,8 +224,9 @@ def calculate_rating(
         card = card["card"]
 
     confirmed, explicit_status = _confirmation_map(card, field_status)
-    breakdown: list[dict[str, Any]] = []
-    missing: list[dict[str, Any]] = []
+    breakdown: dict[str, dict[str, Any]] = {}
+    missing_fields: list[str] = []
+    recommendations: list[str] = []
     score = 0
 
     for field, weight in RATING_WEIGHTS.items():
@@ -273,8 +274,7 @@ def calculate_rating(
 
         score += points
         gain = weight - points
-        item = {
-            "field": field,
+        breakdown[field] = {
             "label": FIELD_LABELS[field],
             "score": points,
             "max_score": weight,
@@ -283,22 +283,17 @@ def calculate_rating(
             "suggestion": FIELD_SUGGESTIONS[field] if gain else "",
             "potential_gain": gain,
         }
-        breakdown.append(item)
         if gain:
-            missing.append({
-                "field": field,
-                "label": FIELD_LABELS[field],
-                "points": gain,
-                "reason": reason,
-                "suggestion": FIELD_SUGGESTIONS[field],
-            })
+            missing_fields.append(field)
+            recommendations.append(FIELD_SUGGESTIONS[field])
 
     score = min(100, score)
     return {
         "score": score,
         "level": get_level(score),
         "breakdown": breakdown,
-        "missing": missing,
+        "missing_fields": missing_fields,
+        "recommendations": recommendations,
         "potential_gain": 100 - score,
     }
 
