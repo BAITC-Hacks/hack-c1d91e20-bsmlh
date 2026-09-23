@@ -1,0 +1,7 @@
+[
+  {"id": "team-data-nomads", "name": "Data Nomads", "interests": ["ритейл", "логистика"], "skills": ["аналитика данных", "дашборды"], "technologies": ["Python", "Streamlit", "pandas"]},
+  {"id": "team-steppe-ai", "name": "Steppe AI", "interests": ["агро", "экология"], "skills": ["компьютерное зрение", "ML"], "technologies": ["Python", "scikit-learn", "OpenCV"]},
+  {"id": "team-qadam", "name": "Qadam Labs", "interests": ["образование", "финтех"], "skills": ["веб-разработка", "NLP"], "technologies": ["Python", "FastAPI", "React"]},
+  {"id": "team-ornek", "name": "Ornek Digital", "interests": ["логистика", "ритейл"], "skills": ["оптимизация", "UX-прототипы"], "technologies": ["Python", "PostgreSQL", "Figma"]},
+  {"id": "team-saryarka", "name": "Saryarka Studio", "interests": ["образование", "агро"], "skills": ["продуктовый дизайн", "аналитика"], "technologies": ["Streamlit", "SQL", "Figma"]}
+]
